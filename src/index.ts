@@ -33,11 +33,11 @@ form?.addEventListener("submit", (e) => {
 });
 
 function addListItem(task: Task) {
-  const item = document.createElement("li");
-  const label = document.createElement("label");
+  const item: any = <HTMLElement>document.createElement("li");
+  const label: any = <HTMLElement>document.createElement("label");
   const checkbox = document.createElement("input");
   const editButton = document.createElement("button");
-  const editInput = document.createElement("input");
+  const editInput: any = <HTMLInputElement>document.createElement("input");
   const delButton = document.createElement("button");
 
   ifCompleted();
@@ -112,7 +112,7 @@ function addListItem(task: Task) {
 }
 
 function delTask() {
-  const confirmModal = document.createElement("dialog");
+  const confirmModal: any = <any>document.createElement("dialog");
   const body = document.querySelector("body");
   body?.append(confirmModal);
   confirmModal.classList.add("modal");
@@ -126,7 +126,7 @@ function delTask() {
   const btnYes = document.querySelector<HTMLButtonElement>("#btn-yes");
   const btnNo = document.querySelector<HTMLButtonElement>("#btn-no");
 
-  btnYes?.addEventListener("click", () => {
+  btnYes?.addEventListener("click", function (this: any) {
     const index = tasks
       .map((e) => e.id)
       .indexOf(this.previousElementSibling.id);
