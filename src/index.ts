@@ -39,7 +39,7 @@ function addListItem(task: Task) {
   const editButton = document.createElement("button");
   const editInput: any = <HTMLInputElement>document.createElement("input");
   const delButton = document.createElement("button");
-
+  let currentCheckbox: boolean;
   ifCompleted();
 
   label.id = task.id;
@@ -54,10 +54,13 @@ function addListItem(task: Task) {
   delButton.innerHTML = "&#10005;";
   delButton.classList.add("del-button");
   checkbox.classList.add("checkbox");
+  checkbox.dataset.checked = <any>task.completed;
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked;
     ifCompleted();
     saveTasks();
+    currentCheckbox = checkbox.checked;
+    checkboxStateSet(currentCheckbox);
   });
 
   checkbox.type = "checkbox";
@@ -74,7 +77,7 @@ function addListItem(task: Task) {
   const delButtonClicked =
     document.querySelectorAll<HTMLButtonElement>(".del-button");
 
-  delButtonClicked.forEach((button) => {
+  delButtonClicked.forEach((button: any) => {
     button.addEventListener("click", delTask);
   });
 
@@ -109,6 +112,10 @@ function addListItem(task: Task) {
       label.style.textDecoration = "line-through";
     } else label.style.textDecoration = "none";
   }
+
+  function checkboxStateSet(onCheckbox: boolean) {
+    checkbox.dataset.checked = <any>onCheckbox;
+  }
 }
 
 function delTask() {
@@ -123,16 +130,14 @@ function delTask() {
   </div>`;
   confirmModal.showModal();
 
-  const btnYes = document.querySelector<HTMLButtonElement>("#btn-yes");
   const btnNo = document.querySelector<HTMLButtonElement>("#btn-no");
+  const btnYes = document.querySelector<HTMLElement>("#btn-yes");
 
-  btnYes?.addEventListener("click", function (this: any) {
+  btnYes?.addEventListener("click", () => {
     const index = tasks
       .map((e) => e.id)
       .indexOf(this.previousElementSibling.id);
-
     tasks.splice(index, 1);
-
     this.closest("li").style.transform = "translateX(-50rem)";
     setTimeout(() => {
       this.closest("li").remove();
@@ -141,7 +146,6 @@ function delTask() {
     confirmModal.remove();
     saveTasks();
   });
-
   btnNo?.addEventListener("click", () => {
     confirmModal.remove();
 
@@ -186,3 +190,13 @@ function tasksCounter() {
 
   appTitle!.textContent = `Todo list (${taskLength})`;
 }
+
+const filtrDone = document.querySelector("#filter-done");
+filtrDone?.addEventListener("click", () => {
+  let checked = document.querySelectorAll(`[data-checked="true"]`);
+
+  console.log(checked);
+  checked.forEach((task: any) => {
+    task.closest("li").classList.toggle("hidden");
+  });
+});

@@ -287,9 +287,8 @@ input[type="checkbox"]:checked:after {
   margin: 0.5em;
 }
 
-#clear {
+.function-buttons {
   position: absolute;
-
   bottom: 2rem;
 }
 
@@ -385,4 +384,8 @@ input[type="checkbox"]:checked:after {
   .app::after {
     transform: rotate(90deg) scale(0.8);
   }
+}
+
+.hidden {
+  display: none;
 }
