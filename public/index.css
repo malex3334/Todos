@@ -141,9 +141,6 @@ input {
   transition: all 0.6s;
 }
 
-ul {
-}
-
 li input:focus-visible,
 li input:focus,
 li input:focus-within,
