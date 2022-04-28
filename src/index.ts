@@ -198,7 +198,10 @@ const filterClear = document.querySelector("#filter-clear");
 filterDone?.addEventListener("click", () => {
   let checked = document.querySelectorAll(`[data-checked="true"]`);
   checked.forEach((task: any) => {
-    task.closest("li").classList.add("hidden");
+    task.closest("li").classList.add("moveOut");
+    setTimeout(() => {
+      task.closest("li").classList.add("hidden");
+    }, 300);
   });
 });
 
@@ -206,5 +209,6 @@ filterClear?.addEventListener("click", () => {
   let checked = document.querySelectorAll(`[data-checked="true"]`);
   checked.forEach((task: any) => {
     task.closest("li").classList.remove("hidden");
+    task.closest("li").classList.remove("moveOut");
   });
 });

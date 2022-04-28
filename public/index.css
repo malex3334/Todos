@@ -386,3 +386,11 @@ input[type="checkbox"]:checked:after {
 .hidden {
   display: none;
 }
+
+.moveIn {
+  transform: translateX(0);
+}
+
+.moveOut {
+  transform: translateX(-100rem);
+}
