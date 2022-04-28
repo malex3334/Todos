@@ -58,7 +58,7 @@ input:enabled {
 
 .app {
   position: relative;
-  min-height: 60rem;
+  height: 60rem;
 
   margin: 7.5rem auto;
   width: 50rem;

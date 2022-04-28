@@ -113,6 +113,7 @@ function addListItem(task: Task) {
     } else label.style.textDecoration = "none";
   }
 
+  // dataset - checked: true or false
   function checkboxStateSet(onCheckbox: boolean) {
     checkbox.dataset.checked = <any>onCheckbox;
   }
@@ -191,12 +192,19 @@ function tasksCounter() {
   appTitle!.textContent = `Todo list (${taskLength})`;
 }
 
-const filtrDone = document.querySelector("#filter-done");
-filtrDone?.addEventListener("click", () => {
-  let checked = document.querySelectorAll(`[data-checked="true"]`);
+const filterDone = document.querySelector("#filter-done");
+const filterClear = document.querySelector("#filter-clear");
 
-  console.log(checked);
+filterDone?.addEventListener("click", () => {
+  let checked = document.querySelectorAll(`[data-checked="true"]`);
   checked.forEach((task: any) => {
-    task.closest("li").classList.toggle("hidden");
+    task.closest("li").classList.add("hidden");
+  });
+});
+
+filterClear?.addEventListener("click", () => {
+  let checked = document.querySelectorAll(`[data-checked="true"]`);
+  checked.forEach((task: any) => {
+    task.closest("li").classList.remove("hidden");
   });
 });
