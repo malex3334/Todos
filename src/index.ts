@@ -92,15 +92,25 @@ function addListItem(task: Task) {
     editInput.focus();
     label.style.display = "none";
 
+    // CONFIRM EDITION
+    function confirmEdit() {
+      task.title = editInput.value;
+      label.textContent = editInput.value;
+      editInput.style.display = "none";
+      label.style.display = "block";
+      editButton.style.opacity = "0";
+      editButton.style.animation = "rotateOut .5s ease-in-out";
+      saveTasks();
+    }
+
     window.addEventListener("click", (e) => {
       if (e.target !== label && e.target !== editInput) {
-        task.title = editInput.value;
-        label.textContent = editInput.value;
-        editInput.style.display = "none";
-        label.style.display = "block";
-        editButton.style.opacity = "0";
-        editButton.style.animation = "rotateOut .5s ease-in-out";
-        saveTasks();
+        confirmEdit();
+      }
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        confirmEdit();
       }
     });
   });

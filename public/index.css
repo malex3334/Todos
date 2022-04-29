@@ -123,6 +123,7 @@ h1 {
 
 #new-task-title {
   background-color: lightgrey;
+  cursor: text;
 }
 
 button {
