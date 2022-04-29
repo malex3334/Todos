@@ -5,7 +5,7 @@ html {
 
 * {
   box-sizing: border-box;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   border: none;
 }
 
@@ -58,8 +58,7 @@ input:enabled {
 
 .app {
   position: relative;
-  height: 60rem;
-
+  height: 65rem;
   margin: 7.5rem auto;
   width: 50rem;
   border-radius: 12px;
@@ -110,7 +109,7 @@ input:enabled {
 } */
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 4rem;
   margin-top: 5rem;
 }
 
@@ -124,6 +123,11 @@ h1 {
 #new-task-title {
   background-color: lightgrey;
   cursor: text;
+}
+#new-task-title:focus {
+  border: none;
+  outline: none;
+  background-color: white;
 }
 
 button {
