@@ -132,6 +132,56 @@ function addListItem(task: Task) {
   function checkboxStateSet(onCheckbox: boolean) {
     checkbox.dataset.checked = <any>onCheckbox;
   }
+
+  /////////////////////////////////////// DRAGABLE SORTING /////////////////////////////////
+  const draggables = document.querySelectorAll(".draggable");
+  console.log(draggables);
+  const container = document.querySelector(".container");
+
+  draggables.forEach((draggable) => {
+    draggable.addEventListener("dragstart", () => {
+      draggable.classList.add("dragging");
+    });
+
+    draggable.addEventListener("dragend", (e: any) => {
+      console.log(e.target.children[1].id);
+      draggable.classList.remove("dragging");
+    });
+  });
+
+  container?.addEventListener("dragover", (e: any) => {
+    e.preventDefault();
+    const afterElement: any = getDragAfterElement(container, e.clientY);
+    const draggable: any = document.querySelector(".dragging");
+    if (afterElement == null) {
+      container.appendChild(draggable);
+      console.log(draggable);
+    } else {
+      console.log(draggable);
+
+      container.insertBefore(draggable, afterElement);
+    }
+  });
+
+  function getDragAfterElement(container: any, y: any) {
+    const draggableElements = [
+      ...container.querySelectorAll(".draggable:not(.dragging)"),
+    ];
+
+    return draggableElements.reduce(
+      (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      },
+      { offset: Number.NEGATIVE_INFINITY }
+    ).element;
+  }
 }
 
 function delTask() {
@@ -242,48 +292,52 @@ console.log(
   })
 );
 
-// /////////////////////////////////
-const draggables = document.querySelectorAll(".draggable");
-const container = document.querySelector(".container");
+// // /////////////////////////////////
+// const draggables = document.querySelectorAll(".draggable");
+// console.log(draggables);
+// const container = document.querySelector(".container");
 
-draggables.forEach((draggable) => {
-  draggable.addEventListener("dragstart", () => {
-    draggable.classList.add("dragging");
-  });
+// draggables.forEach((draggable) => {
+//   draggable.addEventListener("dragstart", () => {
+//     draggable.classList.add("dragging");
+//   });
 
-  draggable.addEventListener("dragend", (e: any) => {
-    console.log(e.target.children[1].id);
-    draggable.classList.remove("dragging");
-  });
-});
+//   draggable.addEventListener("dragend", (e: any) => {
+//     console.log(e.target.children[1].id);
+//     draggable.classList.remove("dragging");
+//   });
+// });
 
-container?.addEventListener("dragover", (e: any) => {
-  e.preventDefault();
-  const afterElement: any = getDragAfterElement(container, e.clientY);
-  const draggable: any = document.querySelector(".dragging");
-  if (afterElement == null) {
-    container.appendChild(draggable);
-  } else {
-    container.insertBefore(draggable, afterElement);
-  }
-});
+// container?.addEventListener("dragover", (e: any) => {
+//   e.preventDefault();
+//   const afterElement: any = getDragAfterElement(container, e.clientY);
+//   const draggable: any = document.querySelector(".dragging");
+//   if (afterElement == null) {
+//     container.appendChild(draggable);
+//     console.log(draggable);
+//   } else {
+//     console.log(draggable);
 
-function getDragAfterElement(container: any, y: any) {
-  const draggableElements = [
-    ...container.querySelectorAll(".draggable:not(.dragging)"),
-  ];
+//     container.insertBefore(draggable, afterElement);
+//   }
+// });
 
-  return draggableElements.reduce(
-    (closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
+// function getDragAfterElement(container: any, y: any) {
+//   const draggableElements = [
+//     ...container.querySelectorAll(".draggable:not(.dragging)"),
+//   ];
 
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child };
-      } else {
-        return closest;
-      }
-    },
-    { offset: Number.NEGATIVE_INFINITY }
-  ).element;
-}
+//   return draggableElements.reduce(
+//     (closest, child) => {
+//       const box = child.getBoundingClientRect();
+//       const offset = y - box.top - box.height / 2;
+
+//       if (offset < 0 && offset > closest.offset) {
+//         return { offset: offset, element: child };
+//       } else {
+//         return closest;
+//       }
+//     },
+//     { offset: Number.NEGATIVE_INFINITY }
+//   ).element;
+// }
