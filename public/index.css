@@ -394,3 +394,13 @@ input[type="checkbox"]:checked:after {
 .moveOut {
   transform: translateX(-100rem);
 }
+
+h1 span {
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  color: #d4d4d4;
+}
+
+#done-counter {
+  margin-left: 1rem;
+}

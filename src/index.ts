@@ -11,6 +11,7 @@ const form =
   (document.getElementById("new-task-form") as HTMLFormElement) || null;
 const input = document.querySelector<HTMLInputElement>("#new-task-title");
 const clearBtn = document.querySelector<HTMLButtonElement>("#clear");
+
 let tasks: Task[] = loadTasks();
 tasks.forEach(addListItem);
 
@@ -84,7 +85,7 @@ function addListItem(task: Task) {
   label.addEventListener("click", () => {
     editButton.style.opacity = "1";
     editButton.style.animation = "rotateIn .5s ease-in-out";
-    console.log(task.title);
+
     editInput.style.display = "block";
     editInput.value = label.textContent;
     editInput.style.cursor = "text";
@@ -111,6 +112,9 @@ function addListItem(task: Task) {
     if (task.completed) {
       label.style.textDecoration = "line-through";
     } else label.style.textDecoration = "none";
+    setTimeout(() => {
+      doneCounter();
+    }, 0);
   }
 
   // dataset - checked: true or false
@@ -182,33 +186,41 @@ clearBtn?.addEventListener("click", () => {
 function tasksCounter() {
   const taskLength = document.querySelectorAll("li").length;
   const appTitle = document.querySelector<HTMLUListElement>("h1");
-
-  if (taskLength > 10) {
-    appTitle!.style.color = "orange";
-  } else {
-    appTitle!.style.color = "white";
-  }
-
-  appTitle!.textContent = `Todo list (${taskLength})`;
+  const appAllCounter = document.querySelector<HTMLSpanElement>("#all-counter");
+  // appTitle!.textContent = `Todo list (${taskLength})`;
+  appAllCounter!.textContent = `${taskLength}`;
 }
 
 const filterDone = document.querySelector("#filter-done");
 const filterClear = document.querySelector("#filter-clear");
 
-filterDone?.addEventListener("click", () => {
+filterDone?.addEventListener("click", onFilterDone);
+filterClear?.addEventListener("click", onFilterClear);
+
+function onFilterDone() {
   let checked = document.querySelectorAll(`[data-checked="true"]`);
-  checked.forEach((task: any) => {
-    task.closest("li").classList.add("moveOut");
+  checked.forEach((task) => {
+    task.closest("li")?.classList.add("moveOut");
     setTimeout(() => {
-      task.closest("li").classList.add("hidden");
+      task.closest("li")?.classList.add("hidden");
     }, 300);
   });
-});
+}
 
-filterClear?.addEventListener("click", () => {
+function onFilterClear() {
   let checked = document.querySelectorAll(`[data-checked="true"]`);
-  checked.forEach((task: any) => {
-    task.closest("li").classList.remove("hidden");
-    task.closest("li").classList.remove("moveOut");
+  checked.forEach((task) => {
+    task.closest("li")?.classList.remove("moveOut");
+    task.closest("li")?.classList.remove("hidden");
   });
-});
+}
+
+function doneCounter() {
+  const appDoneCounter =
+    document.querySelector<HTMLSpanElement>("#done-counter");
+  let checked: number = document.querySelectorAll(
+    `[data-checked="true"]`
+  ).length;
+
+  appDoneCounter!.textContent = `${checked}`;
+}
