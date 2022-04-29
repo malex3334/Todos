@@ -5,7 +5,7 @@ html {
 
 * {
   box-sizing: border-box;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   border: none;
 }
 
@@ -408,4 +408,8 @@ h1 span {
 
 #done-counter {
   margin-left: 1rem;
+}
+
+.dragging {
+  opacity: 0.5;
 }

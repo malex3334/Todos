@@ -44,7 +44,8 @@ function addListItem(task: Task) {
   ifCompleted();
 
   label.id = task.id;
-
+  item.setAttribute("draggable", true);
+  item.classList.add("draggable");
   editInput.classList.add("edit-input");
   editInput.style.display = "none";
 
@@ -233,4 +234,56 @@ function doneCounter() {
   ).length;
 
   appDoneCounter!.textContent = `${checked}`;
+}
+
+console.log(
+  tasks.sort(function (a, b) {
+    return a.title > b.title ? 1 : b.title > a.title ? -1 : 0;
+  })
+);
+
+// /////////////////////////////////
+const draggables = document.querySelectorAll(".draggable");
+const container = document.querySelector(".container");
+
+draggables.forEach((draggable) => {
+  draggable.addEventListener("dragstart", () => {
+    draggable.classList.add("dragging");
+  });
+
+  draggable.addEventListener("dragend", (e: any) => {
+    console.log(e.target.children[1].id);
+    draggable.classList.remove("dragging");
+  });
+});
+
+container?.addEventListener("dragover", (e: any) => {
+  e.preventDefault();
+  const afterElement: any = getDragAfterElement(container, e.clientY);
+  const draggable: any = document.querySelector(".dragging");
+  if (afterElement == null) {
+    container.appendChild(draggable);
+  } else {
+    container.insertBefore(draggable, afterElement);
+  }
+});
+
+function getDragAfterElement(container: any, y: any) {
+  const draggableElements = [
+    ...container.querySelectorAll(".draggable:not(.dragging)"),
+  ];
+
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
 }
