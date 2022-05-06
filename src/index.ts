@@ -214,8 +214,13 @@ function delTask() {
   });
   btnNo?.addEventListener("click", () => {
     confirmModal.remove();
-
     return;
+  });
+  // fix modal removal after escape pressed
+  window.addEventListener("keyup", (e) => {
+    if (e.key === "Escape") {
+      confirmModal.remove();
+    } else return;
   });
 }
 
@@ -243,8 +248,8 @@ clearBtn?.addEventListener("click", () => {
   </div>`;
   confirmModal.showModal();
 
-  const btnNo = document.querySelector<HTMLButtonElement>("#btn-no");
   const btnYes = document.querySelector<HTMLElement>("#btn-yes");
+  const btnNo = document.querySelector<HTMLElement>("#btn-no");
 
   btnYes?.addEventListener("click", () => {
     tasks = [];
@@ -259,11 +264,16 @@ clearBtn?.addEventListener("click", () => {
         tasksCounter();
       }, 300);
     });
-    btnNo?.addEventListener("click", () => {
+  });
+  btnNo?.addEventListener("click", () => {
+    confirmModal.remove();
+    return;
+  });
+  // fix modal removal after escape pressed
+  window.addEventListener("keyup", (e) => {
+    if (e.key === "Escape") {
       confirmModal.remove();
-
-      return;
-    });
+    } else return;
   });
 });
 

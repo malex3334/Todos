@@ -311,6 +311,7 @@ input[type="checkbox"]:checked:after {
   background-color: rgba(255, 255, 255, 0.37);
   border: 1px solid white;
   backdrop-filter: blur(50px);
+  color: white;
 }
 
 .answer-buttons {
@@ -325,11 +326,15 @@ input[type="checkbox"]:checked:after {
 }
 
 #btn-yes {
-  background-color: red;
+  background-color: #da4453;
+
+  border: 1px solid white;
 }
 
 #btn-no {
-  background-color: green;
+  background-color: #4eac18;
+  border: 1px solid white;
+  /* background-color: rgba(218, 68, 83, 0); */
 }
 
 /* ANIMATION */
