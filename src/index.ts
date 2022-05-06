@@ -229,17 +229,41 @@ function loadTasks(): Task[] {
   return JSON.parse(taskJSON);
 }
 
+function confirmDel() {}
+
 clearBtn?.addEventListener("click", () => {
-  tasks = [];
-  saveTasks();
-  tasksCounter();
-  const listItems = document.querySelectorAll("li");
-  listItems.forEach((item) => {
-    item.style.transform = "translateX(-50rem)";
-    setTimeout(() => {
-      item.remove();
-      tasksCounter();
-    }, 300);
+  const confirmModal: any = <any>document.createElement("dialog");
+  const body = document.querySelector("body");
+  body?.append(confirmModal);
+  confirmModal.classList.add("modal");
+  confirmModal.innerHTML = `<h4>Na pewno usunąć?</h4>
+  <div class="answer-buttons">
+  <button id="btn-yes">Tak</button>
+  <button id="btn-no">Nie</button>
+  </div>`;
+  confirmModal.showModal();
+
+  const btnNo = document.querySelector<HTMLButtonElement>("#btn-no");
+  const btnYes = document.querySelector<HTMLElement>("#btn-yes");
+
+  btnYes?.addEventListener("click", () => {
+    tasks = [];
+    saveTasks();
+    tasksCounter();
+    confirmModal.remove();
+    const listItems = document.querySelectorAll("li");
+    listItems.forEach((item) => {
+      item.style.transform = "translateX(-50rem)";
+      setTimeout(() => {
+        item.remove();
+        tasksCounter();
+      }, 300);
+    });
+    btnNo?.addEventListener("click", () => {
+      confirmModal.remove();
+
+      return;
+    });
   });
 });
 
@@ -291,53 +315,3 @@ console.log(
     return a.title > b.title ? 1 : b.title > a.title ? -1 : 0;
   })
 );
-
-// // /////////////////////////////////
-// const draggables = document.querySelectorAll(".draggable");
-// console.log(draggables);
-// const container = document.querySelector(".container");
-
-// draggables.forEach((draggable) => {
-//   draggable.addEventListener("dragstart", () => {
-//     draggable.classList.add("dragging");
-//   });
-
-//   draggable.addEventListener("dragend", (e: any) => {
-//     console.log(e.target.children[1].id);
-//     draggable.classList.remove("dragging");
-//   });
-// });
-
-// container?.addEventListener("dragover", (e: any) => {
-//   e.preventDefault();
-//   const afterElement: any = getDragAfterElement(container, e.clientY);
-//   const draggable: any = document.querySelector(".dragging");
-//   if (afterElement == null) {
-//     container.appendChild(draggable);
-//     console.log(draggable);
-//   } else {
-//     console.log(draggable);
-
-//     container.insertBefore(draggable, afterElement);
-//   }
-// });
-
-// function getDragAfterElement(container: any, y: any) {
-//   const draggableElements = [
-//     ...container.querySelectorAll(".draggable:not(.dragging)"),
-//   ];
-
-//   return draggableElements.reduce(
-//     (closest, child) => {
-//       const box = child.getBoundingClientRect();
-//       const offset = y - box.top - box.height / 2;
-
-//       if (offset < 0 && offset > closest.offset) {
-//         return { offset: offset, element: child };
-//       } else {
-//         return closest;
-//       }
-//     },
-//     { offset: Number.NEGATIVE_INFINITY }
-//   ).element;
-// }
