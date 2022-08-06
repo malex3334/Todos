@@ -1,4 +1,10 @@
-# New Project
+# Simple Todo List
+https://todostasks-app.netlify.app
+
+![image](https://user-images.githubusercontent.com/99325577/183243717-965db2d7-2cb2-4c7a-9cb2-b999627db041.png)
+
+
+## New Project
 
 > ✨ Bootstrapped with Create Snowpack App (CSA).
 
